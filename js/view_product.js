@@ -1,72 +1,78 @@
-let displayProduct = document.querySelector('#displayProduct')
-let list = JSON.parse(localStorage.getItem('list')) || []
+const displayProduct = document.querySelector('#displayProduct');
 
-console.log(displayProduct)
+let list = JSON.parse(localStorage.getItem('list')) || [];
 
-list.forEach((product, index) => {
-    const { id, title, price, Image, category} = product;
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td>${index+1}</td>
-        <td><img src=${Image} style="width:70px" alt=${title}></td>
-        <td>${title}</td>
-        <td>${price}</td>
-        <td>${category}</td>
-        <td>
-        <button type="button" class="btn btn-danger" onclick="deleteProduct(${index})">Delete</button>
-        <button type="button" class="btn btn-warning" onclick="editProduct(${index})">Edit</button>
-        </td>
-        `
-    displayProduct.append(row);
-})
+function displayProducts() {
 
-function deleteProduct(index) {
-    list.splice(index, 1)
-    localStorage.setItem('list', JSON.stringify(list))
-    displayProduct.innerHTML = ''
+    displayProduct.innerHTML = '';
 
     list.forEach((product, index) => {
-        const { id, title, price, Image,category } = product;
+
+        const { id, title, price, Image, category } = product;
+
         const row = document.createElement('tr');
+
         row.innerHTML = `
-            <td>${index+1}</td>
-            <td><img src=${Image} style="width:70px" alt=${title}></td>
+            <td>${index + 1}</td>
+
+            <td>
+                <img src="${Image}"style="width="200" height="50" " alt="${title}"
+                >
+            </td>
+
             <td>${title}</td>
             <td>${price}</td>
             <td>${category}</td>
+
             <td>
-            <button type="button" class="btn btn-danger" onclick="deleteProduct(${index})">Delete</button>
-            <button type="button" class="btn btn-warning" onclick="editProduct(${index})">Edit</button>
+                <button 
+                    type="button" class="btn btn-danger" onclick="deleteProduct(${index})">Delete
+                </button>
+
+                <button type="button" class="btn btn-warning" onclick="editProduct(${index})">Edit
+                </button>
             </td>
-            `
+        `;
+
         displayProduct.append(row);
-    })
+    });
 }
+
+
+function deleteProduct(index) {
+
+    list.splice(index, 1);
+
+    localStorage.setItem('list', JSON.stringify(list));
+
+    displayProducts();
+}
+
 
 function editProduct(index) {
-    let title = prompt("Enter new title", list[index].title)
-    let price = prompt("Enter new price", list[index].price)
 
-    list[index].title = title
-    list[index].price = price
+    const title = prompt("Enter New Ttile",
+        list[index].title
+    )
 
-    localStorage.setItem('list', JSON.stringify(list))
+    const price = prompt("Enter new price",
+        list[index].price
+    );
 
-    displayProduct.innerHTML = ''
+    const category = prompt("Enter new category",
+        list[index].category
+    )
 
-    list.forEach((product, index) => {
-        const { id, title, price, Image } = product;
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${index+1}</td>
-            <td><img src=${Image} style="width:70px" alt=${title}></td>
-            <td>${title}</td>
-            <td>${price}</td>
-            <td>
-            <button type="button" class="btn btn-danger" onclick="deleteProduct(${index})">Delete</button>
-            <button type="button" class="btn btn-warning" onclick="editProduct(${index})">Edit</button>
-            </td>
-            `
-        displayProduct.append(row);
-    })
+    if (title !== null && price !== null && category !== null) {
+
+        list[index].title = title;
+        list[index].price = price;
+        list[index].category = category;
+
+        localStorage.setItem('list',JSON.stringify(list));
+
+        displayProducts();
+    }
 }
+
+displayProducts();

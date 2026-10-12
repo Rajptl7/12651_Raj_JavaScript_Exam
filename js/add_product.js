@@ -1,27 +1,30 @@
-const productForm = document.querySelector('#productForm')
-const inputs = document.querySelectorAll('#productForm .form-control')
+const productForm = document.querySelector('#productForm');
 
-let data = {}
-let list = JSON.parse(localStorage.getItem('list')) || []
+let list = JSON.parse(localStorage.getItem('list')) || [];
 
-inputs.forEach((input)=>{
-    input.addEventListener('input',(e)=>{
-        const {name,value} = e.target
-        data = {...data,[name]:value}
-    })    
-})
-
-function addProduct(){
-
-    list.push({...data, id:Date.now()})
-    localStorage.setItem('list', JSON.stringify(list)) 
-
-    alert("Product Added");
-    productForm.reset()
-}
-
-productForm.addEventListener('submit',(e)=>{
+productForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    addProduct()
-})
+    const title = productForm.querySelector('[name="title"]').value;
+    const price = productForm.querySelector('[name="price"]').value;
+    const Image = productForm.querySelector('[name="Image"]').value;
+    const category = productForm.querySelector('[name="category"]').value;
+
+    const product = {
+        title: title,
+        price: price,
+        Image: Image,
+        category: category,
+        id: Date.now()
+    };
+
+    list.push(product);
+
+    localStorage.setItem('list', JSON.stringify(list));
+
+    alert("Product Added");
+
+    productForm.reset();
+});
+
+// and make it simple and with my style also don't change my coding style   
